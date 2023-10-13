@@ -4,9 +4,9 @@ from collections import Counter
 class KNNClassifier:
     def __init__(self, n_neighbors=5, distance="euclidian"):
         self.n_neighbors = n_neighbors 
-        self.distance = self.get_distance(distance)
+        self.distance = self._get_distance(distance)
 
-    def get_distance(self, distance = "euclidian"):
+    def _get_distance(self, distance = "euclidian"):
         if distance == "euclidian":
             return self._euclidian_distance
         elif distance == "manhattan":
