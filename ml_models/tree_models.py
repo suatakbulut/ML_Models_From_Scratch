@@ -106,3 +106,37 @@ class DecisionTreeClassifier:
             return self._traverse_tree(x, node.left)
         else:
             return self._traverse_tree(x, node.right)
+        
+
+class RandomForestClassifier:
+    def __init__(self, n_estimators=21, max_depth=10, min_samples_split=2, n_features=None):
+        self.n_estimators = n_estimators
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.n_features = n_features
+        self.trees = []
+        
+    def fit(self, X, y):
+        for _ in range(self.n_estimators):
+            tree = DecisionTreeClassifier(
+                max_depth=self.max_depth, 
+                min_samples_split=self.min_samples_split, 
+                n_features=self.n_features)
+            
+            X_sample, y_sample = self._bootstrap(X, y)
+            tree.fit(X_sample, y_sample)
+            self.trees.append(tree)
+        
+    def _bootstrap(self, X, y):
+        n_samples = X.shape[0]
+        idxs = np.random.choice(n_samples, n_samples, replace=True)
+        return X[idxs], y[idxs]
+    
+    def _most_common_label(self, y):
+        counter = Counter(y)
+        return counter.most_common()[0][0]
+    
+    def predict(self, X):
+        tree_predictions = [tree.predict(X) for tree in self.trees]
+        all_preds = np.swapaxes(tree_predictions, 0, 1)
+        return [self._most_common_label(pred) for pred in all_preds]
