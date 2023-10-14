@@ -34,10 +34,9 @@ class PCA:
 
         # sort eigenvectors
         idxs = np.argsort(eigenvalues)[::-1] 
-        eigenvalues = eigenvalues[idxs]
         eigenvectos = eigenvectos[idxs] 
 
-        # select the first n_componenets
+        # select the first n_components of the eigenvectors 
         self.components = eigenvectos[:self.n_components]
 
     def transform(self, X):
