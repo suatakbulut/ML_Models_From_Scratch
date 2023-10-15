@@ -71,4 +71,4 @@ if __name__ == "__main__":
     sk_logit_pca = LogisticRegression(max_iter=10000)
     sk_logit_pca.fit(X_train, y_train) 
     y_pred = sk_logit_pca.predict(X_test)
-    print("Sklearn Accuracy with PCA (20 components):", accuracy(y_test, y_pred))
+    print("Sklearn Accuracy with PCA (20 components) :", accuracy(y_test, y_pred))
