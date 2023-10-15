@@ -140,3 +140,52 @@ class RandomForestClassifier:
         tree_predictions = [tree.predict(X) for tree in self.trees]
         all_preds = np.swapaxes(tree_predictions, 0, 1)
         return [self._most_common_label(pred) for pred in all_preds]
+
+
+if __name__ == "__main__":
+    from sklearn.model_selection import train_test_split
+    from sklearn import datasets
+    import matplotlib.pyplot as plt
+    from metrics import mean_square_error, accuracy 
+
+    bc = datasets.load_breast_cancer()
+    X, y = bc.data, bc.target
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+
+    ###########################
+    # Decision Tree Classifier 
+    ###########################
+    dtc = DecisionTreeClassifier(max_depth=10, min_samples_split=2)
+    dtc.fit(X_train, y_train) 
+    y_pred = dtc.predict(X_test)
+    print("\nTesting Decision Tree Classifier")
+    print("================================")
+    print(" Custom Accuracy:", accuracy(y_test, y_pred))
+
+
+    from sklearn.tree import DecisionTreeClassifier as DTC
+    sk_dtc = DTC()
+    sk_dtc.fit(X_train, y_train) 
+    y_pred = sk_dtc.predict(X_test)
+    print("Sklearn Accuracy:", accuracy(y_test, y_pred))
+
+
+    ###########################
+    # Random Forest Classifier 
+    ###########################
+    rf = RandomForestClassifier()
+    rf.fit(X_train, y_train) 
+    y_pred = rf.predict(X_test)
+    print("\nTesting Random Forest Classifier")
+    print("================================")
+    print(" Custom Accuracy:", accuracy(y_test, y_pred))
+
+    from sklearn.ensemble import RandomForestClassifier as RF
+    sk_rf = RF(n_jobs=-1)
+    sk_rf.fit(X_train, y_train) 
+    y_pred = sk_rf.predict(X_test)
+    print("Sklearn Accuracy:", accuracy(y_test, y_pred))
+
+

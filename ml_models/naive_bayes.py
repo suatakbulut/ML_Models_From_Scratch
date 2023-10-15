@@ -49,3 +49,26 @@ class NaiveBayes:
 
         return numer / denom 
 
+if __name__ == "__main__":
+    from sklearn.model_selection import train_test_split
+    from sklearn import datasets
+    import matplotlib.pyplot as plt
+    from metrics import mean_square_error, accuracy 
+
+    bc = datasets.load_breast_cancer()
+    X, y = bc.data, bc.target
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+    nb = NaiveBayes()
+    nb.fit(X_train, y_train) 
+    y_pred = nb.predict(X_test)
+    print("\nTesting Naive Bayes Classifier")
+    print("==============================")
+    print(" Custom Accuracy:", accuracy(y_test, y_pred))
+
+    from sklearn.naive_bayes import GaussianNB
+    sk_nb = GaussianNB()
+    sk_nb.fit(X_train, y_train) 
+    y_pred = sk_nb.predict(X_test)
+    print("Sklearn Accuracy:", accuracy(y_test, y_pred))

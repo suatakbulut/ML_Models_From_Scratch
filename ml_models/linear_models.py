@@ -72,4 +72,53 @@ class LogisticRegression:
         self.bias -= self.lr * db
         return self 
 
-    
+
+if __name__ == "__main__":
+    from sklearn.model_selection import train_test_split
+    from sklearn import datasets
+    import matplotlib.pyplot as plt
+    from metrics import mean_square_error, accuracy 
+
+    #####################
+    # Linear Regression
+    #####################
+    X, y = datasets.make_regression(n_samples=100, n_features=1, noise=20, random_state=4)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+
+    lin = LinearRegression()
+    lin.fit(X_train, y_train) 
+    y_pred = lin.predict(X_test)
+    print("\nTesting Linear Regression")
+    print("=========================")
+    print(" Custom MSE:", mean_square_error(y_test, y_pred))
+
+    from sklearn.linear_model import LinearRegression
+    sk_lin = LinearRegression()
+    sk_lin.fit(X_train, y_train) 
+    y_pred = sk_lin.predict(X_test)
+    print("Sklearn MSE:", mean_square_error(y_test, y_pred))
+
+
+    #####################
+    # Logistic Regression
+    #####################
+
+    bc = datasets.load_breast_cancer()
+    X, y = bc.data, bc.target
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+    logit = LogisticRegression(learning_rate=0.003, n_iters=10000)
+    logit.fit(X_train, y_train) 
+    y_pred = logit.predict(X_test)
+    print("\nTesting Logistic Regression")
+    print("===========================")
+    print(" Custom Accuracy:", accuracy(y_test, y_pred))
+
+
+    from sklearn.linear_model import LogisticRegression
+    sk_logit = LogisticRegression(max_iter=10000)
+    sk_logit.fit(X_train, y_train) 
+    y_pred = sk_logit.predict(X_test)
+    print("Sklearn Accuracy:", accuracy(y_test, y_pred))

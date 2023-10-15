@@ -34,3 +34,31 @@ class KNNClassifier:
 
     def _manhattan_distance(self, p1, p2):
         return np.sum( np.abs(p1-p2) ) 
+    
+
+
+if __name__ == "__main__":
+    from sklearn.model_selection import train_test_split
+    from sklearn import datasets
+    import matplotlib.pyplot as plt
+    from metrics import mean_square_error, accuracy 
+
+    bc = datasets.load_breast_cancer()
+    X, y = bc.data, bc.target
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+    # knn Classifier
+    knn = KNNClassifier(n_neighbors=5)
+    knn.fit(X_train, y_train) 
+    y_pred = knn.predict(X_test)
+    print("\nTesting KNN Classifier")
+    print("======================")
+    print(" Custom Accuracy:", accuracy(y_test, y_pred))
+
+
+    from sklearn.neighbors import KNeighborsClassifier
+    sk_knn = KNeighborsClassifier(n_neighbors=5)
+    sk_knn.fit(X_train, y_train) 
+    y_pred = sk_knn.predict(X_test)
+    print("Sklearn Accuracy:", accuracy(y_test, y_pred))
