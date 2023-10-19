@@ -8,7 +8,7 @@ class PCA:
 
     - transformed features are linearly independent 
     - dimensionality can be reduced by taking only the dimension with highest importance 
-    - newly foudn dimensions should minimize the projection error 
+    - newly found dimensions should minimize the projection error 
     - projected point should have maximum spread 
     """
 
