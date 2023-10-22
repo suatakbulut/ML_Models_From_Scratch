@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pylab
 
 
 class KMeans:
@@ -26,7 +27,8 @@ class KMeans:
         self.n_samples, self.n_features = X.shape
 
         # initialize centroids
-        random_centroid_idx = np.random.choice(self.n_samples, self.n_clusters, replace=False)
+        random_centroid_idx = np.random.choice(
+            self.n_samples, self.n_clusters, replace=False)
         self.centroids = [self.X[idx] for idx in random_centroid_idx]
 
         for _ in range(self.max_iters):
@@ -40,7 +42,7 @@ class KMeans:
                 self._plot_steps()
             # check if converged
             if self._is_converged(centroids_old, self.centroids):
-                print("Convergence achieved")
+                # print("Convergence achieved")
                 break
 
     def _create_clusters(self, centroids):
@@ -49,7 +51,8 @@ class KMeans:
             self.clusters[centroid_idx].append(idx)
 
     def _get_closest_centroid(self, sample):
-        distances = [self._euclidian_distance(sample, centroid) for centroid in self.centroids]
+        distances = [self._euclidian_distance(
+            sample, centroid) for centroid in self.centroids]
         closest_centroid = np.argmin(distances)
         return closest_centroid
 
@@ -67,15 +70,15 @@ class KMeans:
 
     def _plot_steps(self):
         NUM_COLORS = len(self.centroids)
-        cm = pylab.get_cmap('gist_rainbow') 
+        cm = pylab.get_cmap('gist_rainbow')
         fig, ax = plt.subplots(figsize=(12, 8))
-        
+
         for centroid_idx, centroid in enumerate(self.centroids):
             color = cm(centroid_idx/NUM_COLORS)
             cluster = self.clusters[centroid_idx]
             point = self.X[cluster].T
-            ax.scatter(*point, color = color )
-            ax.scatter(*centroid, marker="+", color = color, linewidth=5)
+            ax.scatter(*point, color=color)
+            ax.scatter(*centroid, marker="+", color=color, linewidth=5)
 
         plt.show()
 
