@@ -20,8 +20,8 @@ class Perceptron:
 
     def _update_weights(self, X, y):
         y_lin = np.dot(X, self.weights) + self.bias
-        y_proba = self._sigmoid(y_lin) 
-        z = self._activation(y_proba) 
+        y_proba = self._sigmoid(y_lin)
+        z = self._activation(y_proba)
 
         dw = (1.0 / X.shape[0]) * np.dot(X.T, (z - y))
         db = (1.0 / X.shape[0]) * np.sum(z - y)
@@ -30,13 +30,13 @@ class Perceptron:
         self.bias -= self.lr * db
 
     def _activation(self, z):
-        return np.where(z >= 0.5, 1, 0) 
+        return np.where(z >= 0.5, 1, 0)
 
     def _sigmoid(self, z):
         return 1.0 / (1+np.exp(-z))
 
     def predict(self, X):
         y_lin = np.dot(X, self.weights) + self.bias
-        y_proba = self._sigmoid(y_lin) 
-        z = self._activation(y_proba) 
-        return z 
+        y_proba = self._sigmoid(y_lin)
+        z = self._activation(y_proba)
+        return z
